@@ -116,7 +116,7 @@ let
 
         (module:
         lib.evalModules {
-          specialArgs = ref {
+          specialArgs = rec {
             inherit self flake-parts-lib;
             inputs = args.inputs or /* legacy, warned above */ self.inputs;
           } // specialArgs;
