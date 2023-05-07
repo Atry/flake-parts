@@ -116,10 +116,11 @@ let
 
         (module:
         lib.evalModules {
-          specialArgs = {
+          specialArgs = ref {
             inherit self flake-parts-lib;
             inputs = args.inputs or /* legacy, warned above */ self.inputs;
           } // specialArgs;
+          inputsByOutPath = outPath: findInputsByOutPath outPath inputs;
           modules = [ ./all-modules.nix module ];
         }
         );
