@@ -170,15 +170,15 @@ let
       };
     mkPerSystemOption = mkDeferredModuleOption;
 
-    # Returns the inputs of another input that matches `outPath`, or by default
-    # the root inputs if the `outPath` is not an input.
+    # Returns the inputs of another input that includes `outPath`, or by default
+    # the root inputs if the `outPath` does not belong to an input.
     findInputsByOutPath = outPath: inputs:
       let
         findInputByOutPath = outPath:
           lib.attrsets.concatMapAttrs
           (inputName: input:
             (
-              if input.outPath == toString outPath then
+              if lib.strings.hasPrefix input.outPath (toString outPath) then
                 input
               else 
                 findInputByOutPath outPath input.inputs or { }
