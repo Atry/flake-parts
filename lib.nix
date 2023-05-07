@@ -119,8 +119,8 @@ let
           specialArgs = rec {
             inherit self flake-parts-lib;
             inputs = args.inputs or /* legacy, warned above */ self.inputs;
+            inputsByOutPath = outPath: findInputsByOutPath outPath inputs;
           } // specialArgs;
-          inputsByOutPath = outPath: findInputsByOutPath outPath inputs;
           modules = [ ./all-modules.nix module ];
         }
         );
@@ -179,7 +179,7 @@ let
           lib.attrsets.concatMapAttrs
           (inputName: input:
             (
-              if lib.strings.hasPrefix input.outPath (toString outPath) then
+              if input.outPath == toString outPath then
                 input
               else 
                 findInputByOutPath outPath input.inputs or { }
