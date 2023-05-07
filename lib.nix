@@ -170,6 +170,17 @@ let
       };
     mkPerSystemOption = mkDeferredModuleOption;
 
+    findInputByOutPath = outPath:
+      lib.attrsets.concatMapAttrs
+      (inputName: input:
+        (
+          if lib.strings.hasPrefix input.outPath "${outPath}" then
+            input
+          else 
+            findCurrentInput outPath input.inputs or { }
+        )
+      );
+
     # Helper function for defining a per-system option that
     # gets transposed by the usual flake system logic to a
     # top-level flake attribute.
