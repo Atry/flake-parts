@@ -170,16 +170,23 @@ let
       };
     mkPerSystemOption = mkDeferredModuleOption;
 
-    findInputByOutPath = outPath:
-      lib.attrsets.concatMapAttrs
-      (inputName: input:
-        (
-          if lib.strings.hasPrefix input.outPath "${outPath}" then
-            input
-          else 
-            findInputByOutPath outPath input.inputs or { }
-        )
-      );
+    # Returns the inputs of another input that matches `outPath`, or by default
+    # the root inputs if the `outPath` is not an input.
+    findInputsByOutPath = outPath: inputs:
+      let
+        findInputByOutPath = outPath:
+          lib.attrsets.concatMapAttrs
+          (inputName: input:
+            (
+              if input.outPath == toString outPath then
+                input
+              else 
+                findInputByOutPath outPath input.inputs or { }
+            )
+          );
+      in
+        # Don't search `inputs.self` because of https://github.com/hercules-ci/flake-parts/issues/148
+        (findInputByOutPath outPath (builtins.removeAttrs inputs [ "self" ])).inputs or inputs;
 
     # Helper function for defining a per-system option that
     # gets transposed by the usual flake system logic to a
