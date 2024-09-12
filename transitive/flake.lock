@@ -1,7 +1,6 @@
 {
   "nodes": {
-    "nixpkgs-lib": {
-      "locked": {
+    "nixpkgs-lib": {      "locked": {
         "lastModified": 1726155622,
         "narHash": "sha256-Ss8QWLXdr2JCBPcYChJhz4xJm+h/xjl4G0c0XlP6a74=",
         "owner": "nix-community",
@@ -17,26 +16,7 @@
     },
     "root": {
       "inputs": {
-        "nixpkgs-lib": [
-          "transitive",
-          "nixpkgs-lib"
-        ],
-        "transitive": "transitive"
-      }
-    },
-    "transitive": {
-      "inputs": {
         "nixpkgs-lib": "nixpkgs-lib"
-      },
-      "locked": {
-        "lastModified": 1,
-        "narHash": "sha256-Fjux2vHhZiQ8XaWS4+q9gfqBdQNG73ocohxId32Z2zI=",
-        "path": "./transitive",
-        "type": "path"
-      },
-      "original": {
-        "path": "./transitive",
-        "type": "path"
       }
     }
   },
